@@ -1,13 +1,13 @@
 var APP = APP || {};
 
-(function () {
-	// Data objecten
-	APP.game = {
+(function () { //Self involking function omdat je wil dat ze code zichzelf helemaal uitvoert
+	
+	APP.game = { //Code literal, omdat we dit object maar één keer gaan gebruiken
+		//simulatie van data uit een database
 		title:'Game',
 		description:'Pool A - Score: Boomsquad vs. Burning Snow',
-		latestGameResults : [
-			{ headScore: "Score", headTeam: "Team", headPoints: "Total points" },
-		    { score: "1", team1: "Boomsquad", team1Score: "1", team2: "Burning Snow", team2Score: "0"},
+		latestGameResults : [ 
+			{ score: "1", team1: "Boomsquad", team1Score: "1", team2: "Burning Snow", team2Score: "0"},
 		    { score: "2", team1: "Boomsquad", team1Score: "2", team2: "Burning Snow", team2Score: "0"},
 		    { score: "3", team1: "Boomsquad", team1Score: "2", team2: "Burning Snow", team2Score: "1"},
 		    { score: "4", team1: "Boomsquad", team1Score: "2", team2: "Burning Snow", team2Score: "2"},
@@ -37,7 +37,7 @@ var APP = APP || {};
 		title:'Schedule',
 		description:'Pool A - Schedule',
 		scoreResults: [
-		    { date: "Monday, 9:00am", team1: "Chasing", team1Score: "13", team2: "Amsterdam Money Gang", team2Score: "9"},
+			{ date: "Monday, 9:00am", team1: "Chasing", team1Score: "13", team2: "Amsterdam Money Gang", team2Score: "9"},
 		    { date: "Monday, 9:00am", team1: "Boomsquad", team1Score: "15", team2: "Beast Amsterdam", team2Score: "11"},
 		    { date: "Monday, 10:00am", team1: "Beast Amsterdam", team1Score: "14", team2: "Amsterdam Money Gang", team2Score: "12"},
 		    { date: "Monday, 10:00am", team1: "Chasing", team1Score: "5", team2: "Burning Snow", team2Score: "15"},
@@ -52,21 +52,30 @@ var APP = APP || {};
 
 	APP.ranking = {
 		title:'Ranking',
-		description:'Ranking is de derde pagina'
+		description:'De ranking van de teams', 
+		scoreRanking: [
+			{ team: "Chasing", Win: "2", Lost: "2", Sw: "7", Sl: "9", Pw: "35", Pl: "39"},
+		    { team: "Boomsquad", Win: "2", Lost: "2", Sw: "9", Sl: "8", Pw: "36", Pl: "34"},
+		    { team: "Burning Snow", Win: "3", Lost: "1", Sw: "11", Sl: "4", Pw: "36", Pl: "23"},
+		    { team: "Beast Amsterdam", Win: "2", Lost: "2", Sw: "6", Sl: "8", Pw: "30", Pl: "34"},
+		    { team: "Amsterdam Money Gang", Win: "1", Lost: "3", Sw: "6", Sl: "10", Pw: "30", Pl: "37"}
+		]
 	};
 	
-	// Controller Init
+	// Controller 
 	APP.controller = {
 		init: function () {
-			// Initialize router
+			// Hier wordt een init gebruikt omdat je wil dat je later in de code deze functie weer kan activeren
 			APP.router.init();
+			//nameSpace.object.methode
 		}
 	};
 
-	// Router en data
+	// Router, spreekt de lib routie aan om te zorgen dat de juiste content van de juiste pagina getoond wordt aan de hand van user input
+	// De user input is doormiddel van het klikken op een link naar een nieuwe pagina met een nieuwe url
 	APP.router = {
 		init: function () {
-	  		routie({
+	  		/* routie({
 			    '/game': function() {
 			    	APP.page.render('game');
 				},
@@ -80,17 +89,18 @@ var APP = APP || {};
 			    '*': function() {
 			    	APP.page.render('game');
 			    }
+			}); */
+			routie('/:name', function(name) {
+					APP.page.render(name);
 			});
-		},
-
-		//Dit kan korter, kijk op de site van routie '/name' ivp de page
+		}, 
 
 		change: function () {
             var route = window.location.hash.slice(2),
                 sections = qwery('section'),
                 section = qwery('[data-route=' + route + ']')[0];
 
-            // Show active section, hide all other
+            // Toon alleen de actieve pagina, de rest niet
             if (section) {
             	for (var i=0; i < sections.length; i++){
             		sections[i].classList.remove('active');
@@ -98,7 +108,7 @@ var APP = APP || {};
             	section.classList.add('active');
             }
 
-            // Default route
+            // De standaard route, als een andere route niet herkend wordt
             if (!route) {
             	sections[0].classList.add('active');
             }
@@ -106,18 +116,20 @@ var APP = APP || {};
 		}
 	};
 
-	// Pages
+	// Aanmaken van de pagina, vullen van data
+	// Met qwery spreekt Transparency de DOM aan, in dit geval de elementen met 'data-route'
+	// Qwery geeft arrays terug
 	APP.page = {
 		render: function (route) {
-			// http://javascriptweblog.wordpress.com/2010/04/19/how-evil-is-eval/
-			var data = eval('APP.'+route);
+			var data = APP[route];
 
-			Transparency.render(qwery('[data-route='+route+']')[0], data);
+			Transparency.render(qwery('[data-route=' + route + ']')[0], data);
 			APP.router.change();
 		}
-	}
+	};
+
 	// DOM ready, pas als de DOM (HTML) klaar is wordt de APP.controler gestart. Dit helpt voorkomen dat JavaScript al uitgevoerd wordt zonder dat deze geplaatst kan worden en dan wordt de content niet getoont.
-	domready(function () { //Selfinvolking function
+	domready(function () { //Self involking function
 		// Start de APP.controller.init als de DOM helemaal geladen is
 		APP.controller.init();
 	});

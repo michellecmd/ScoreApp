@@ -4,7 +4,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<title>ScoreApp</title>
-	<link href="static/css/style.css" rel="stylesheet" type="text/css" />
+	<link href="static/css/style.css" rel="stylesheet" type="text/css" /> 
 </head>
 <body>
 	<header>
@@ -26,27 +26,23 @@
 			<h1 data-bind="title"></h1>
 			<p data-bind="description"></p>
 
-			
 			<!-- Latest Game Results -->
-		    <section data-bind="latestGameResults">
 				<table> 
-	                <thead>
-		                <tr>
-		                    <th data-bind = "headScore"></th>
-		                    <th data-bind = "headTeam"></th>
-		                    <th data-bind = "headPoints"></th>
-		                    <th data-bind = "headTeam"></th>
-		                </tr>
-	            	</thead>
-		            <tbody> 
-		            	<tr>
-			                <td data-bind="score"></td>
-			                <td data-bind="team1"></td>
-			                <td data-bind="team1Score"></td>
-			                <td data-bind="team2Score"></td>
-			                <td data-bind="team2"></td>
-			            </tr>
-		        	</tbody>
+					<thead>
+			            <th class="score">Score</th>
+			            <th class="team">Team</th>
+			            <th class="points">Points</th>
+			            <th class="team">Team</th>
+			        </thead>	
+			        <tbody data-bind="latestGameResults">
+			            <tr>
+				            <td data-bind="score" class="score"></td>
+				            <td data-bind="team1" class="team"></td>
+				            <td data-bind="team1Score" class= "points"></td>
+				            <td data-bind="team2Score" class= "points"></td>
+				            <td data-bind="team2" class="team"></td>
+				        </tr>
+				    </tbody>
 	        	</table>
 	        </section> 
 		</section>
@@ -55,21 +51,22 @@
 		<section data-route="schedule">
 			<h1 data-bind="title"></h1>
 			<p data-bind="description"></p>
-			<section data-bind="scoreResults">
 				<table> 
-	                <!--<tr>
-	                    <th>Monday 18 March</th>
-	                    <th>Team</th>
-	                    <th>Result</th>
-	                    <th>Team</th>
-	                </tr>-->
-		            <tr>
-		                <td data-bind="date"></td>
-		                <td data-bind="team1"></td>
-		                <td data-bind="team1Score"></td>
-		                <td data-bind="team2"></td>
-		                <td data-bind="team2Score"></td>
-		            </tr>
+			        <thead>
+			            <th class="date">Date</th>
+			            <th class="team">Team</th>
+			            <th class="points">Points</th>
+			            <th class="team">Team</th>
+			        </thead> 
+					<tbody data-bind="scoreResults">
+			            <tr>
+			                <td data-bind="date" class="date"></td>
+			                <td data-bind="team1" class="team"></td>
+			                <td data-bind="team1Score" class="points"></td>
+			                <td data-bind="team2Score" class="points"></td>
+			                <td data-bind="team2" class="team"></td>
+			            </tr>
+			        </tbody>
 	        	</table>
 	        </section> 
 		</section>
@@ -78,6 +75,29 @@
 		<section data-route="ranking">
 			<h1 data-bind="title"></h1>
 			<p data-bind="description"></p>
+			<!-- Header Score Results -->
+			<table> 
+		        <thead>
+		                <th class="team">Team</th>
+		                <th class="win">Win</th>
+		                <th class="win">Lost</th>
+		                <th class="win">Sw</th>
+		                <th class="win">S1</th>
+		                <th class="win">Pw</th>
+		                <th class="win">P1</th>
+		        </thead> 
+				<tbody data-bind="scoreRanking">
+		            <tr>
+		                <td data-bind="team" class="team"></td>
+		                <td data-bind="Win" class="points"></td>
+		                <td data-bind="Lost" class="points"></td>
+		                <td data-bind="Sw" class="points"></td>
+		                <td data-bind="Sl" class="points"></td>
+		                <td data-bind="Pw" class="points"></td>
+		                <td data-bind="Pl" class="points"></td>
+		            </tr>
+		        </tbody>
+        	</table>
 		</section>
 	</article>
 
@@ -87,6 +107,7 @@
 	- Ready: [dom ready](http://www.dustindiaz.com/smallest-domready-ever)
 	- Routie: [router](http://projects.jga.me/routie/)
 	- Transparancy: [semantic template engine](https://github.com/leonidas/transparency)
+	Aan het eind geplaatst omdat je ook wil dat deze code als laatst uitgevoerd wordt. Dit wordt 'zeker gemaakt' door de domready functie.
 	-->
 	<script src="static/js/lib/routie.min.js"></script>
 	<script src="static/js/lib/ready.min.js" type="text/javascript"></script>
